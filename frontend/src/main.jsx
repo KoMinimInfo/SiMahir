@@ -2,7 +2,9 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import HomePage from "./HomePage.jsx";
 import LogInPage from "./pages/LogInPage.jsx";
-import SignUp from "./pages/SignUpPage.jsx";
+import SignUpPage from "./pages/SignUpPage.jsx";
+import ProfilePage from "./pages/ProfilePage.jsx";
+import BookingPage from "./pages/BookingPage.jsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
 
@@ -10,6 +12,11 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <HomePage />,
+    children: [
+      {
+        path: "home",
+      },
+    ],
   },
   {
     path: "/login",
@@ -17,11 +24,19 @@ const router = createBrowserRouter([
   },
   {
     path: "/signup",
-    element: <SignUp />,
+    element: <SignUpPage />,
   },
   {
     path: "/about",
     element: <h1>About</h1>,
+  },
+  {
+    path: "/profile",
+    element: <ProfilePage />,
+  },
+  {
+    path: "/booking",
+    element: <BookingPage />,
   },
 ]);
 

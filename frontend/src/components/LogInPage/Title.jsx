@@ -1,8 +1,8 @@
 const Title = () => {
   return (
-    <div className="flex flex-col items-center justify-center gap-2">
-      <h1 className="text-5xl font-semibold">Selamat Datang</h1>
-      <h3 className="text-lg font-medium">
+    <div className="flex flex-col items-center justify-center gap-2 text-center">
+      <h1 className="text-4xl font-semibold sm:text-6xl">Selamat Datang</h1>
+      <h3 className="text-sm font-medium sm:text-xl">
         Masuk untuk Mendapatkan Layanan Terbaik!
       </h3>
     </div>

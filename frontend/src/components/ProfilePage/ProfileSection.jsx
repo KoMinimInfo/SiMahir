@@ -120,13 +120,14 @@ const ProfileSection = () => {
                 <p>Yakin untuk melanjutkan?</p>
               </div>
             </div>
-            <div
-              onClick={() => {
-                setIsModalOpen(false);
-              }}
-              className="space-x-5 self-end"
-            >
-              <button className="rounded-md bg-secondary px-5 py-1">
+            <div className="space-x-5 self-end">
+              <button
+                onClick={() => {
+                  setIsModalOpen(false);
+                  setEditMode(false);
+                }}
+                className="rounded-md bg-secondary px-5 py-1"
+              >
                 Ya, Saya yakin
               </button>
               <button

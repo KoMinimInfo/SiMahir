@@ -1,11 +1,7 @@
 import LogInPage from "./LogInPage";
 
 const App = () => {
-  return (
-    <div>
-      <LogInPage />
-    </div>
-  );
+  return <LogInPage />;
 };
 
 export default App;

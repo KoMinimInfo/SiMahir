@@ -1,17 +1,17 @@
 import Header from "../components/Common/Header";
-import ProfileSection from "../components/ProfilePage/ProfileSection";
+import PaymentSection from "../components/BookingPage/PaymentSection";
 import Support from "../components/Common/FooterSection/Support";
 import Copyright from "../components/Common/FooterSection/Copyright";
 
-const ProfilePage = () => {
+const PaymentPage = () => {
   return (
     <div>
       <Header isLoggedIn={true} />
-      <ProfileSection />
+      <PaymentSection />
       <Support />
-      <Copyright inLogInPage={false} />
+      <Copyright isLoggedIn={true} />
     </div>
   );
 };
 
-export default ProfilePage;
+export default PaymentPage;

@@ -13,6 +13,7 @@ const LogInPage = () => {
         <Form />
       </div>
       <Copyright inLogInPage={true} />
+      <VectorBackground />
     </div>
   );
 };

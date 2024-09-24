@@ -2,7 +2,7 @@ import FAQIllust from "../../assets/FAQIllust.svg";
 
 const FAQSection = () => {
   return (
-    <div className="relative h-auto w-full md:w-3/6 bg-primary py-10 px-4 md:px-20 mx-auto my-auto rounded-2xl">
+    <div className="h-auto w-full md:w-3/6 bg-primary py-10 px-4 md:px-20 mx-auto my-auto rounded-2xl">
       <section className="flex flex-col md:flex-row items-center">
         <img
           src={FAQIllust}
@@ -16,7 +16,7 @@ const FAQSection = () => {
           <p className="mt-4 text-white text-2xl font-poppins text-center md:text-left">
             Lihat lebih lengkap terkait SI MAHIR
           </p>
-          <button className="mt-4 bg-orange-500 text-white text-xl py-2 px-4 rounded-md inline-block w-6/12 md:w-5/12 mx-auto md:mx-0">
+          <button className="mt-4 bg-orange-500 hover:bg-white text-white hover:text-primary text-xl py-2 px-4 rounded-md inline-block w-6/12 md:w-5/12 mx-auto md:mx-0">
             FAQ
           </button>
         </div>

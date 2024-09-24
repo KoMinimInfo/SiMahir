@@ -59,7 +59,7 @@ const Header = ({
                 key={link.to}
                 to={link.to}
                 className={({ isActive, isPending, isTransitioning }) =>
-                  [isActive ? "text-yellow-500 underline" : ""].join(
+                  [isActive ? "text-orange-400 underline" : ""].join(
                     "flex h-full w-full items-center justify-center",
                   )
                 }

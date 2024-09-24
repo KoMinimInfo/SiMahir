@@ -1,11 +1,3 @@
-import {
-  Card,
-  CardHeader,
-  CardBody,
-  CardFooter,
-  Typography,
-  Button,
-} from "@material-tailwind/react";
 
 const ServiceList = () => {
   return (
@@ -20,7 +12,7 @@ const ServiceList = () => {
 
         <form className="max-w-md w-full mt-6">   
           <label htmlFor="default-search" className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
-          <div className="relative">
+          <div className="relative -z-40">
             <div className="absolute inset-y-0 left-0 flex items-center pl-5 pointer-events-none">
               <svg className="w-4 h-4 text-orange-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                 <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="4" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>

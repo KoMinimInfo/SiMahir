@@ -2,7 +2,7 @@ import heroImage from "../../assets/heroImage.svg";
 
 const HeroSection = () => {
   return (
-    <div className="relative h-auto w-full bg-primary p-4">
+    <div className="h-auto w-full bg-primary p-4">
       <section className="flex flex-col md:flex-row items-center justify-center h-full w-full">
     
         <img className="w-full md:w-3/12 mb-4 md:mb-0" src={heroImage} alt="Hero Image" />
@@ -21,7 +21,7 @@ const HeroSection = () => {
             jadwal fleksibel, SI MAHIR menawarkan solusi perbaikan rumah yang
             cepat, efisien, dan berkualitas.
           </p>
-          <button className="mb-5 mt-4 text-lg md:text-xl font-medium text-poppins text-primary bg-white px-6 md:px-14 py-2 md:py-3 rounded-xl">
+          <button className="mb-5 mt-4 text-lg md:text-xl font-medium text-poppins text-primary hover:text-white bg-white hover:bg-orange-400 px-6 md:px-14 py-2 md:py-3 rounded-xl ">
             Lihat Jadwal
           </button>
         </div>

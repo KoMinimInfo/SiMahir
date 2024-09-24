@@ -9,6 +9,7 @@ import ProfilePage from "./pages/ProfilePage.jsx";
 import BookingPage from "./pages/BookingPage.jsx";
 import PaymentPage from "./pages/PaymentPage.jsx";
 import FAQPage from "./pages/FAQPage.jsx";
+import PortfolioPage from "./pages/PortfolioPage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -47,6 +48,10 @@ const router = createBrowserRouter([
   {
     path: "/faq",
     element: <FAQPage />,
+  },
+  {
+    path: "/portfolio",
+    element: <PortfolioPage />,
   },
 ]);
 

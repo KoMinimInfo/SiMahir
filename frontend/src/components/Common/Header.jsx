@@ -33,7 +33,9 @@ const Header = ({
 
   return (
     <div className="fixed top-0 flex h-20 w-full items-center justify-between gap-5 bg-white px-6 shadow-lg">
-      <img src={IconSiMahir} alt="Si Mahir" className="w-40" />
+      <Link to="/portfolio">
+        <img src={IconSiMahir} alt="Si Mahir" className="w-40 cursor-pointer" />
+      </Link>
 
       {inLogInPage && (
         <Link
@@ -59,7 +61,7 @@ const Header = ({
                 key={link.to}
                 to={link.to}
                 className={({ isActive, isPending, isTransitioning }) =>
-                  [isActive ? "text-orange-400 underline" : ""].join(
+                  [isActive ? "border-b-4 border-orange-400 text-orange-400" : ""].join(
                     "flex h-full w-full items-center justify-center",
                   )
                 }

@@ -13,7 +13,10 @@ class ServiceController extends Controller
     function index()
     {
         $services = Service::all();
-        return response()->json($services, 200);
+        return response()->json([
+            'message' => 'Get service successfully',
+            'data' => $services
+        ], 200);
     }
 
     public function show($id)
@@ -24,7 +27,10 @@ class ServiceController extends Controller
             return response()->json(['message' => 'Service not found'], 404);
         }
 
-        return response()->json($service, 200);
+        return response()->json([
+            'message' => 'Get service successfully',
+            'data' => $service
+        ], 200);
     }
 
 
@@ -55,7 +61,10 @@ class ServiceController extends Controller
             'image' => $imagePath,
         ]);
 
-        return response()->json($service, 201);
+        return response()->json([
+            'message' => 'Service added successfully',
+            'data' => $service
+        ], 201);
     }
 
 
@@ -92,7 +101,10 @@ class ServiceController extends Controller
 
         $service->save();
 
-        return response()->json($service, 200);
+        return response()->json([
+            'message' => 'Service updated successfully',
+            'data' => $service
+        ], 200);
     }
 
 

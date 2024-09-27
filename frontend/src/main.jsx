@@ -1,3 +1,4 @@
+// src/index.js
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
@@ -10,6 +11,10 @@ import BookingPage from "./pages/BookingPage.jsx";
 import PaymentPage from "./pages/PaymentPage.jsx";
 import FAQPage from "./pages/FAQPage.jsx";
 import PortfolioPage from "./pages/PortfolioPage.jsx";
+import ErrorPage from "./pages/ErrorPage.jsx"; 
+import ErrorBoundary from "./components/ErrorBoundary"; 
+import ProductPage from "./pages/ProductPage.jsx";
+import BookingFormPage from "./pages/BookingFormPage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -53,10 +58,24 @@ const router = createBrowserRouter([
     path: "/portfolio",
     element: <PortfolioPage />,
   },
+  {
+    path: "/product/:id",
+    element: <ProductPage />,
+  },
+  {
+    path: "*", 
+    element: <ErrorPage />,
+  },
+  {
+    path: "/bookingform", 
+    element: <BookingFormPage />,
+  },
 ]);
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <ErrorBoundary>
+      <RouterProvider router={router} />
+    </ErrorBoundary>
   </StrictMode>,
 );

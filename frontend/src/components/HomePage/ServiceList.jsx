@@ -1,4 +1,3 @@
-
 const ServiceList = () => {
   return (
     <div className="flex items-center justify-center">
@@ -33,10 +32,6 @@ const ServiceList = () => {
             </button>
           </div>
         </form>
-
-        <div className="">
-        </div>
-      
       </div>
     </div>
   );

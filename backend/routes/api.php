@@ -19,6 +19,7 @@ Route::get('/services/{id}', [ServiceController::class, 'show']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::put('/users/{id}/update-password', [UserController::class, 'updatePassword']);
     Route::put('/users/{id}/update-profile', [UserController::class, 'updateProfile']);
+    Route::put('/users/{id}/update-profile-picture', [UserController::class, 'updateProfilePicture']);
     Route::delete('/users/{id}/delete', [UserController::class, 'deleteUser']);
 
     Route::post('/logout', [AuthController::class, 'logout']);

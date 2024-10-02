@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
@@ -17,7 +18,7 @@ class UserController extends Controller
 
         if ($loggedInUser->id !== (int) $id && $loggedInUser->role !== 'admin') {
             return response()->json([
-                'message' => 'Unauthorized to update this user.'
+                'message' => 'Forbidden to update this user.'
             ], 403);
         }
 
@@ -53,7 +54,7 @@ class UserController extends Controller
 
         if ($loggedInUser->id !== (int) $id && $loggedInUser->role !== 'admin') {
             return response()->json([
-                'message' => 'Unauthorized to update this user.'
+                'message' => 'Forbidden to update this user.'
             ], 403);
         }
 
@@ -82,13 +83,41 @@ class UserController extends Controller
         ], 200);
     }
 
+    public function updateProfilePicture(Request $request, $id)
+    {
+        $loggedInUser = Auth::user();
+        if ($loggedInUser->id !== (int) $id && $loggedInUser->role !== 'admin') {
+            return response()->json([
+                'message' => 'Forbidden to update this user.'
+            ], 403);
+        }
+        $user = User::findOrFail($id);
+        $validator = Validator::make($request->all(), [
+            'profile_picture' => 'required|image|mimes:jpeg,png,jpg,svg,gif|max:2048'
+        ]);
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+        if ($request->hasFile('profile_picture')) {
+            if ($user->profile_picture) {
+                Storage::disk('public')->delete($user->profile_picture);
+            }
+            $user->profile_picture = $request->file('profile_picture')->store('images/users', 'public');
+        }
+        $user->save();
+        return response()->json([
+            'message' => 'User updated successfully',
+            'data' => $user,
+        ], 200);
+    }
+
     public function deleteUser($id)
     {
         $loggedInUser = Auth::user();
 
         if ($loggedInUser->id !== (int) $id && $loggedInUser->role !== 'admin') {
             return response()->json([
-                'message' => 'Unauthorized to delete this user.'
+                'message' => 'Forbidden to delete this user.'
             ], 403);
         }
 

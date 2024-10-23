@@ -44,35 +44,35 @@ class ServiceSeeder extends Seeder
         Service::create([
             'name' => 'Perbaikan Pipa',
             'price' => 350000,
-            'duration' => '1-2 Hari Pengerjaan',
+            'duration' => '1 - 2 Hari Pengerjaan',
             'image' => 'images/services/perbaikan-pipa.svg',
             'description' => 'Perbaikan pipa bocor, tersumbat, atau instalasi pipa baru untuk kamar mandi, dapur, dan area lainnya.',
         ]);
         Service::create([
             'name' => 'Desain Interior',
             'price' => 350000,
-            'duration' => '1-2 Hari Pengerjaan',
+            'duration' => '1 - 2 Hari Pengerjaan',
             'image' => 'images/services/desain-interior.svg',
             'description' => 'Konsultasi dan desain interior untuk mengubah tampilan ruangan Anda menjadi lebih menarik dan fungsional.',
         ]);
         Service::create([
             'name' => 'Perbaikan Furnitur',
             'price' => 350000,
-            'duration' => '1-2 Hari Pengerjaan',
+            'duration' => '1 - 2 Hari Pengerjaan',
             'image' => 'images/services/perbaikan-furnitur.svg',
             'description' => 'Perbaikan berbagai jenis furnitur seperti kursi, meja, lemari, dan lainnya agar kembali berfungsi dengan baik.',
         ]);
         Service::create([
             'name' => 'Perbaikan Jendela',
             'price' => 350000,
-            'duration' => '1-2 Hari Pengerjaan',
+            'duration' => '1 - 2 Hari Pengerjaan',
             'image' => 'images/services/perbaikan-jendela.svg',
             'description' => 'Perbaikan jendela yang rusak, kendor, atau bocor, termasuk penggantian kaca jika diperlukan.',
         ]);
         Service::create([
             'name' => 'Perbaikan AC',
             'price' => 350000,
-            'duration' => '1-2 Hari Pengerjaan',
+            'duration' => '1 - 2 Hari Pengerjaan',
             'image' => 'images/services/perbaikan-ac.svg',
             'description' => 'Perbaikan berbagai masalah pada AC, seperti tidak dingin, bocor, atau berisik, termasuk pengisian freon.',
         ]);

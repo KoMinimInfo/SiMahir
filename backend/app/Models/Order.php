@@ -25,4 +25,9 @@ class Order extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function service(): BelongsTo
+    {
+        return $this->belongsTo(Service::class);
+    }
 }

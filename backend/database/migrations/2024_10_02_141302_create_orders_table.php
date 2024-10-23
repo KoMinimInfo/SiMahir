@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('order_phone');
             $table->text('order_notes')->nullable();
             $table->decimal('gross_amount', 10, 2);
-            $table->enum('order_status', ['On Process', 'Done', 'Canceled']);
+            $table->enum('order_status', ['Pending', 'On Process', 'Done', 'Canceled'])->default('Pending');
             $table->timestamps();
         });
     }

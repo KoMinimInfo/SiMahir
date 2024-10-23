@@ -14,7 +14,7 @@ class ServiceController extends Controller
     {
         $services = Service::all();
         return response()->json([
-            'message' => 'Get service successfully',
+            'message' => 'Get services successfully',
             'data' => $services
         ], 200);
     }

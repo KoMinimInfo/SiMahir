@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\ServiceController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
@@ -21,6 +22,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/users/{id}/update-profile', [UserController::class, 'updateProfile']);
     Route::put('/users/{id}/update-profile-picture', [UserController::class, 'updateProfilePicture']);
     Route::delete('/users/{id}/delete', [UserController::class, 'deleteUser']);
+
+    Route::get('/orders', [OrderController::class, 'index']);
+    Route::get('/orders/{id}', [OrderController::class, 'show']);
+    Route::post('/orders', [OrderController::class, 'store']);
 
     Route::post('/logout', [AuthController::class, 'logout']);
 

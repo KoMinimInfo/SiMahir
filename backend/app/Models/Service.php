@@ -22,4 +22,9 @@ class Service extends Model
     {
         return $this->hasMany(Order::class);
     }
+
+    public function ratings(): HasMany
+    {
+        return $this->hasMany(Rating::class);
+    }
 }

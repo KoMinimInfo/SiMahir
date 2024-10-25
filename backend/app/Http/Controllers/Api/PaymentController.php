@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\Validator;
 use Midtrans\Config;
 use Midtrans\CoreApi;
 use Midtrans\Notification;
-use Midtrans\Transaction;
 
 class PaymentController extends Controller
 {
@@ -24,14 +23,59 @@ class PaymentController extends Controller
         Config::$isSanitized = config('services.midtrans.isSanitized');
         Config::$is3ds = config('services.midtrans.is3ds');
     }
-    public function payWithCreditCard(Request $request)
+
+    public function getCardToken(Request $request)
+    {
+        try {
+            $response = CoreApi::cardToken(
+                $request->card_number,
+                $request->card_exp_month,
+                $request->card_exp_year,
+                $request->card_cvv
+            );
+
+            if (isset($response->status_code) && $response->status_code === "200" && isset($response->token_id)) {
+                return [
+                    'status_code' => $response->status_code,
+                    'token_id' => $response->token_id
+                ];
+            }
+
+            return [
+                'status_code' => 422,
+                'message' => $response->validation_messages ?? 'Failed to retrieve card token'
+            ];
+        } catch (\Exception $e) {
+            return [
+                'status_code' => 500,
+                'message' => 'Failed to connect to Midtrans: ' . $e->getMessage()
+            ];
+        }
+    }
+
+    public function payWithCreditCard(Request $request, $id)
     {
         $loggedInUser = Auth::user();
 
-        $order = Order::find($request->order_id);
+        $validator = Validator::make($request->all(), [
+            'card_number' => 'required|digits:16',
+            'card_exp_month' => 'required|digits:2',
+            'card_exp_year' => 'required|digits:4',
+            'card_cvv' => 'required|digits:3',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+
+        $order = Order::find($id);
 
         if (!$order) {
             return response()->json(['message' => 'Order not found'], 404);
+        }
+
+        if ($order->payment) {
+            return response()->json(['message' => 'This order already has an associated transaction', 409]);
         }
 
         if ($loggedInUser->id !== (int) $order->user_id && $loggedInUser->role !== 'admin') {
@@ -40,18 +84,19 @@ class PaymentController extends Controller
             ], 403);
         }
 
-        $validator = Validator::make($request->all(), [
-            'token_id' => 'required|string'
-        ]);
+        $response = $this->getCardToken($request);
 
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 422);
+        if (!isset($response['token_id'])) {
+            return response()->json(
+                ['message' => $response['message']],
+                $response['status_code']
+            );
         }
 
         $params = [
             'payment_type' => 'credit_card',
             'credit_card' => [
-                'token_id' => $request->token_id,
+                'token_id' => $response['token_id'],
                 'authentication' => true
             ],
             'transaction_details' => [
@@ -93,18 +138,22 @@ class PaymentController extends Controller
                 'data' => $payment,
             ], 201);
         } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
+            return response()->json(['message' => $e->getMessage()], 500);
         }
     }
 
-    public function payWithVirtualAccount(Request $request)
+    public function payWithVirtualAccount(Request $request, $id)
     {
         $loggedInUser = Auth::user();
 
-        $order = Order::find($request->order_id);
+        $order = Order::find($id);
 
         if (!$order) {
             return response()->json(['message' => 'Order not found'], 404);
+        }
+
+        if ($order->payment) {
+            return response()->json(['message' => 'This order already has an associated transaction', 409]);
         }
 
         if ($loggedInUser->id !== (int) $order->user_id && $loggedInUser->role !== 'admin') {
@@ -190,7 +239,7 @@ class PaymentController extends Controller
                 'data' => $payment,
             ], 201);
         } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
+            return response()->json(['message' => $e->getMessage()], 500);
         }
     }
 
@@ -215,9 +264,15 @@ class PaymentController extends Controller
         if ($transaction === 'capture') {
             $payment->status = 'capture';
             $payment->order->order_status = 'On Process';
+            $payment->order->progress()->create([
+                'status_progress' => 'Pesanan Diterima'
+            ]);
         } else if ($transaction === 'settlement') {
             $payment->status = 'settlement';
             $payment->order->order_status = 'On Process';
+            $payment->order->progress()->create([
+                'status_progress' => 'Pesanan Diterima'
+            ]);
         } elseif ($transaction === 'pending') {
             $payment->status = 'pending';
         } elseif ($transaction === 'deny') {

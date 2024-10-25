@@ -12,7 +12,8 @@ class ServiceController extends Controller
 {
     function index()
     {
-        $services = Service::all();
+        $services = Service::withAvg('ratings', 'rating_value')->get();
+
         return response()->json([
             'message' => 'Get services successfully',
             'data' => $services
@@ -21,7 +22,7 @@ class ServiceController extends Controller
 
     public function show($id)
     {
-        $service = Service::find($id);
+        $service = Service::withAvg('ratings', 'rating_value')->find($id);
 
         if (!$service) {
             return response()->json(['message' => 'Service not found'], 404);

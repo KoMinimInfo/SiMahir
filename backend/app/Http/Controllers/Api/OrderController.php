@@ -82,8 +82,41 @@ class OrderController extends Controller
             ], 403);
         }
 
+        $order->progress;
+
         return response()->json([
             'message' => 'Get order successfully',
+            'data' => $order
+        ], 200);
+    }
+
+    public function update($id)
+    {
+        $loggedInUser = Auth::user();
+
+        $order = Order::find($id);
+
+        if (!$order) {
+            return response()->json(['message' => 'Order not found'], 404);
+        }
+
+        if ($loggedInUser->id !== (int) $order->user_id && $loggedInUser->role !== 'admin') {
+            return response()->json([
+                'message' => 'Forbidden to access this order.'
+            ], 403);
+        }
+
+        $lastProgress = $order->progress->last();
+
+        if ($lastProgress->status_progress !== 'Selesai') {
+            return response()->json(['message' => 'Action not allowed: Order is not complete yet.'], 403);
+        }
+
+        $order->order_status = 'Done';
+        $order->save();
+
+        return response()->json([
+            'message' => 'Order status updated successfully',
             'data' => $order
         ], 200);
     }

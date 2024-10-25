@@ -3,6 +3,8 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\PaymentController;
+use App\Http\Controllers\Api\ProgressController;
+use App\Http\Controllers\Api\RatingController;
 use App\Http\Controllers\Api\ServiceController;
 use App\Http\Controllers\Api\UserController;
 use App\Models\Payment;
@@ -30,9 +32,13 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/orders', [OrderController::class, 'index']);
     Route::get('/orders/{id}', [OrderController::class, 'show']);
     Route::post('/orders', [OrderController::class, 'store']);
+    Route::put('/orders/{id}', [OrderController::class, 'update']);
 
-    Route::post('/payments/credit-card', [PaymentController::class, 'payWithCreditCard']);
-    Route::post('/payments/virtual-account', [PaymentController::class, 'payWithVirtualAccount']);
+    Route::post('/payments/credit-card/{id}', [PaymentController::class, 'payWithCreditCard']);
+    Route::post('/payments/virtual-account/{id}', [PaymentController::class, 'payWithVirtualAccount']);
+
+    Route::post('/ratings/{id}', [RatingController::class, 'create']);
+    Route::get('/ratings/{id}', [RatingController::class, 'show']);
 
     Route::post('/logout', [AuthController::class, 'logout']);
 
@@ -41,8 +47,11 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 });
 
+
 Route::middleware(['auth:sanctum', 'role:admin'])->group(function () {
     Route::post('/services', [ServiceController::class, 'store']);
     Route::put('/services/{id}', [ServiceController::class, 'update']);
     Route::delete('/services/{id}', [ServiceController::class, 'destroy']);
+
+    Route::post('/progress/{id}', [ProgressController::class, 'store']);
 });

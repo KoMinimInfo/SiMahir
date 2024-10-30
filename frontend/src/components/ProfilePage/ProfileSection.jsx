@@ -64,8 +64,8 @@ const ProfileSection = () => {
         <div className="flex flex-col items-center justify-between gap-10 sm:flex-row">
           <img src={Hero} />
           <div className="space-y-2">
-            <h4 className="text-3xl font-semibold">Kayra Renatha</h4>
-            <p>kayrarenatha@gmail.com</p>
+            <h4 className="text-3xl font-semibold">{fullName}</h4>
+            <p>{email}</p>
           </div>
         </div>
         {!editMode && (

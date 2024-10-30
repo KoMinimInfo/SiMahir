@@ -62,7 +62,7 @@ const ProductDetail = () => {
           <AiFillStar
             key={index}
             className={`${
-              product.rating > index ? "text-yellow-400" : "text-gray-300"
+              product.ratings_avg_rating_value > index ? "text-yellow-400" : "text-gray-300"
             }`}
           />
         ))}

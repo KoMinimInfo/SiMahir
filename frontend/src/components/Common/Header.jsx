@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { FiMenu, FiEdit, FiLock, FiShield, FiLogOut, FiMail, FiUser } from "react-icons/fi";
 import Hero from "../../assets/hero.svg";
+import axios from 'axios';
 
 const Header = ({
   inLogInPage = false,
@@ -12,6 +13,11 @@ const Header = ({
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const navigate = useNavigate();
   const menuRef = useRef();
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [id, setId] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [address, setAddress] = useState("");
 
   const navLink = [
     {
@@ -39,6 +45,29 @@ const Header = ({
   const handleLogout = () => {
     navigate('/login');
   };
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const response = await axios.get("/api/user");
+        
+        if (response.data) {
+          setId(response.data.id);
+          setFullName(response.data.name);
+          setPhoneNumber(response.data.phone);
+          setAddress(response.data.address);
+          setEmail(response.data.email);
+        }
+      } catch (err) {
+        console.error("Error fetching user data:", err);
+      }
+    };
+
+    if (isLoggedIn) {
+      fetchUserData();
+    }
+  }, [isLoggedIn]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -101,8 +130,8 @@ const Header = ({
                   <div className="flex items-center space-x-3">
                     <img src={Hero} alt="Profile" className="w-10 h-10 rounded-full" />
                     <div>
-                      <p className="font-semibold text-gray-800">Kayra Renatha</p>
-                      <p className="text-xs text-gray-500">kayrarenatha@gmail.com</p>
+                      <p className="font-semibold text-gray-800">{fullName}</p>
+                      <p className="text-xs text-gray-500">{email}</p>
                     </div>
                   </div>
                 </div>

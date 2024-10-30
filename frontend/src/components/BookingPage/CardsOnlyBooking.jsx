@@ -1,9 +1,7 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { AiFillStar } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 
-const CardsOnlyBooking = ({id, name, price, duration, rating, image}) => {
+const CardsOnlyBooking = ({id, name, price, duration, ratings_avg_rating_value, image}) => {
   const navigate = useNavigate();
   
 
@@ -31,7 +29,7 @@ const CardsOnlyBooking = ({id, name, price, duration, rating, image}) => {
               <AiFillStar
                 key={index}
                 className={`${
-                  rating > index ? "text-yellow-400" : "text-gray-300"
+                  ratings_avg_rating_value > index ? "text-yellow-400" : "text-gray-300"
                 }`}
               />
             ))}

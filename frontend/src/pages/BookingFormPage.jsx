@@ -1,4 +1,3 @@
-
 import Header from "../components/Common/Header";
 import Copyright from "../components/Common/FooterSection/Copyright";
 import Support from "../components/Common/FooterSection/Support";

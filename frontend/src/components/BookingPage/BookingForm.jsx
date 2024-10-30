@@ -1,6 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
@@ -10,13 +9,12 @@ const BookingForm = () => {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const baseUrl =
-    "https://9000-idx-simahir-1729422412747.cluster-a3grjzek65cxex762e4mwrzl46.cloudworkstations.dev/storage/";
-
   const [order_name, setOrder_name] = useState("");
   const [order_address, setOrder_address] = useState("");
   const [order_phone, setOrder_phone] = useState("");
   const [order_notes, setOrder_notes] = useState("");
+  const baseUrl =
+    "https://9000-idx-simahir-1729422412747.cluster-a3grjzek65cxex762e4mwrzl46.cloudworkstations.dev/storage/";
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -39,10 +37,12 @@ const BookingForm = () => {
     fetchProduct();
   }, []);
 
+  console.log(product);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("/api/orders", {
+      const response = await axios.post("/api/orders", {
         service_id: id,
         order_name,
         order_address,
@@ -53,8 +53,7 @@ const BookingForm = () => {
       setOrder_address("");
       setOrder_phone("");
       setOrder_notes("");
-
-      navigate("/payment");
+      navigate(`/payment/${id}`, { state: { orderId: response.data.data.id } });
     } catch (error) {
       console.error("Error submitting form:", error.response?.data);
     }
@@ -150,6 +149,7 @@ const BookingForm = () => {
                 rows="4"
                 value={order_notes}
                 onChange={(e) => setOrder_notes(e.target.value)}
+                required
               ></textarea>
             </div>
 

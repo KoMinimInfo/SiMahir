@@ -54,7 +54,7 @@ const router = createBrowserRouter([
     element: <BookingPage />,
   },
   {
-    path: "/payment",
+    path: "/payment/:id",
     element: <PaymentPage />,
   },
   {
@@ -74,7 +74,7 @@ const router = createBrowserRouter([
     element: <ErrorPage />,
   },
   {
-    path: "/bookingform/:id", 
+    path: "/bookingform/:id",
     element: <BookingFormPage />,
   },
   {

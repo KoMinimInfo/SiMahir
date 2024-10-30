@@ -1,21 +1,61 @@
 import { useState, useEffect, useRef } from "react";
 import { IoIosCheckmarkCircleOutline } from "react-icons/io";
 import Hero from "../../assets/hero.svg";
+import axios from "axios";
 
 const ProfileSection = () => {
   const [editMode, setEditMode] = useState(false);
-  const [fullName, setFullName] = useState("Kayra Renatha");
-  const [phoneNumber, setPhoneNumber] = useState("087849104759");
-  const [address, setAddress] = useState("Jl. Soekarno Hatta No.45");
-  const [email, setEmail] = useState("kayrarenatha@gmail.com");
+  const [id, setId] = useState(-1);
+  const [fullName, setFullName] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [address, setAddress] = useState("");
+  const [email, setEmail] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [shouldSubmit, setShouldSubmit] = useState(false);
   const inputRef = useRef(null);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const response = await axios.get("/api/user");
+        setId(response.data.id);
+        setFullName(response.data.name);
+        setPhoneNumber(response.data.phone);
+        setAddress(response.data.address);
+        setEmail(response.data.email);
+      } catch (err) {
+        console.error("Error fetching services:", err);
+      }
+    })();
+  }, []);
 
   useEffect(() => {
     if (editMode) {
       inputRef.current.focus();
     }
   }, [editMode]);
+
+  useEffect(() => {
+    if (shouldSubmit) {
+      handleSubmit();
+      setShouldSubmit(false); // Reset submit state
+    }
+  }, [shouldSubmit]);
+
+  const handleSubmit = async () => {
+    try {
+      const response = await axios.post(`/api/users/${id}/update-profile`, {
+        _method: "PUT",
+        name: fullName,
+        phone: phoneNumber,
+        address: address,
+        email: email,
+      });
+      console.log(response);
+    } catch (err) {
+      console.error("Error updating user:", err);
+    }
+  };
 
   return (
     <div className="mx-14 my-28 flex flex-col gap-y-10">
@@ -39,12 +79,15 @@ const ProfileSection = () => {
           </button>
         )}
       </div>
-      <form className="w-full space-y-3 sm:w-2/3">
+      <form
+        className="w-full space-y-3 sm:w-2/3"
+        onSubmit={(e) => e.preventDefault()}
+      >
         <div className="flex flex-col space-y-1">
           <label>Nama Lengkap</label>
           <input
             ref={inputRef}
-            value={fullName}
+            value={fullName || ""}
             onChange={(e) => setFullName(e.target.value)}
             type="text"
             className={`${!editMode ? "text-slate-500" : ""} h-9 rounded-lg border-2 p-2`}
@@ -54,7 +97,7 @@ const ProfileSection = () => {
         <div className="flex flex-col space-y-1">
           <label>No. Handphone</label>
           <input
-            value={phoneNumber}
+            value={phoneNumber || ""}
             onChange={(e) => setPhoneNumber(e.target.value)}
             type="text"
             className={`${!editMode ? "text-slate-500" : ""} h-9 rounded-lg border-2 p-2`}
@@ -64,7 +107,7 @@ const ProfileSection = () => {
         <div className="flex flex-col space-y-1">
           <label>Alamat Lengkap</label>
           <input
-            value={address}
+            value={address || ""}
             onChange={(e) => setAddress(e.target.value)}
             type="text"
             className={`${!editMode ? "text-slate-500" : ""} h-9 rounded-lg border-2 p-2`}
@@ -74,7 +117,7 @@ const ProfileSection = () => {
         <div className="flex flex-col space-y-1">
           <label>Email</label>
           <input
-            value={email}
+            value={email || ""}
             onChange={(e) => setEmail(e.target.value)}
             type="text"
             className={`${!editMode ? "text-slate-500" : ""} h-9 rounded-lg border-2 p-2`}
@@ -104,44 +147,45 @@ const ProfileSection = () => {
             </>
           )}
         </div>
-      </form>
-      {isModalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center text-white backdrop-blur-sm">
-          <div className="flex flex-col justify-between gap-6 rounded-3xl bg-primary px-10 py-5">
-            <div className="flex justify-between gap-6">
-              <IoIosCheckmarkCircleOutline
-                size={50}
-                className="rounded-md bg-secondary p-2"
-              />
-              <div>
-                <p className="text-lg font-medium">
-                  Perubahan ini akan mengupdate profil Anda.
-                </p>
-                <p>Yakin untuk melanjutkan?</p>
+        {isModalOpen && (
+          <div className="fixed inset-0 flex items-center justify-center text-white backdrop-blur-sm">
+            <div className="flex flex-col justify-between gap-6 rounded-3xl bg-primary px-10 py-5">
+              <div className="flex justify-between gap-6">
+                <IoIosCheckmarkCircleOutline
+                  size={50}
+                  className="rounded-md bg-secondary p-2"
+                />
+                <div>
+                  <p className="text-lg font-medium">
+                    Perubahan ini akan mengupdate profil Anda.
+                  </p>
+                  <p>Yakin untuk melanjutkan?</p>
+                </div>
+              </div>
+              <div className="space-x-5 self-end">
+                <button
+                  onClick={() => {
+                    setIsModalOpen(false);
+                    setEditMode(false);
+                    setShouldSubmit(true); // Memicu handleSubmit
+                  }}
+                  className="rounded-md bg-secondary px-5 py-1"
+                >
+                  Ya, Saya yakin
+                </button>
+                <button
+                  onClick={() => {
+                    setIsModalOpen(false);
+                  }}
+                  className="rounded-md border border-black bg-white px-5 py-1 font-medium text-black"
+                >
+                  Tidak, batalkan
+                </button>
               </div>
             </div>
-            <div className="space-x-5 self-end">
-              <button
-                onClick={() => {
-                  setIsModalOpen(false);
-                  setEditMode(false);
-                }}
-                className="rounded-md bg-secondary px-5 py-1"
-              >
-                Ya, Saya yakin
-              </button>
-              <button
-                onClick={() => {
-                  setIsModalOpen(false);
-                }}
-                className="rounded-md border border-black bg-white px-5 py-1 font-medium text-black"
-              >
-                Tidak, batalkan
-              </button>
-            </div>
           </div>
-        </div>
-      )}
+        )}
+      </form>
     </div>
   );
 };

@@ -17,14 +17,11 @@ const Form = () => {
     e.preventDefault();
     if (password === confirmPassword) {
       try {
-        const response = await axios.post(
-          "https://9000-idx-simahir-1729422412747.cluster-a3grjzek65cxex762e4mwrzl46.cloudworkstations.dev/api/register",
-          {
-            name,
-            email,
-            password,
-          },
-        );
+        const response = await axios.post("/api/register", {
+          name,
+          email,
+          password,
+        });
         console.log(response.data.access_token);
         localStorage.setItem("accessToken", response.data.access_token);
         setName("");

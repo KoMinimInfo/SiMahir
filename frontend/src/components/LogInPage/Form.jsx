@@ -14,13 +14,10 @@ const Form = () => {
     e.preventDefault();
     setIsLoading(true);
     try {
-      const response = await axios.post(
-        "https://9000-idx-simahir-1729422412747.cluster-a3grjzek65cxex762e4mwrzl46.cloudworkstations.dev/api/login",
-        {
-          email,
-          password,
-        },
-      );
+      const response = await axios.post("/api/login", {
+        email,
+        password,
+      });
       setIsLoading(false);
       localStorage.setItem("accessToken", response.data.access_token);
       setEmail("");

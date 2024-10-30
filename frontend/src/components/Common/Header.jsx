@@ -15,9 +15,6 @@ const Header = ({
   const menuRef = useRef();
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
-  const [id, setId] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [address, setAddress] = useState("");
 
   const navLink = [
     {
@@ -53,10 +50,7 @@ const Header = ({
         const response = await axios.get("/api/user");
         
         if (response.data) {
-          setId(response.data.id);
           setFullName(response.data.name);
-          setPhoneNumber(response.data.phone);
-          setAddress(response.data.address);
           setEmail(response.data.email);
         }
       } catch (err) {

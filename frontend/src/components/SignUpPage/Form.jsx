@@ -1,20 +1,65 @@
 import { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 
 const Form = () => {
+  const navigate = useNavigate();
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (password === confirmPassword) {
+      try {
+        const response = await axios.post(
+          "https://9000-idx-simahir-1729422412747.cluster-a3grjzek65cxex762e4mwrzl46.cloudworkstations.dev/api/register",
+          {
+            name,
+            email,
+            password,
+          },
+        );
+        console.log(response.data.access_token);
+        localStorage.setItem("accessToken", response.data.access_token);
+        setName("");
+        setEmail("");
+        setPassword("");
+        setConfirmPassword("");
+        navigate("/login");
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  };
+
   return (
-    <form className="flex w-full min-w-20 flex-col gap-4">
+    <form
+      className="flex w-full min-w-20 flex-col gap-4"
+      onSubmit={handleSubmit}
+    >
       <div className="flex flex-col gap-2">
         <label className="block text-gray-600">Nama Lengkap</label>
-        <input type="text" className="rounded-lg border-2 p-2" />
+        <input
+          type="text"
+          className="rounded-lg border-2 p-2"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
       </div>
       <div className="flex flex-col gap-2">
         <label className="text-gray-600">Alamat Email</label>
-        <input type="name" className="rounded-lg border-2 p-2" />
+        <input
+          type="email"
+          className="rounded-lg border-2 p-2"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
       </div>
       <div className="flex flex-col gap-2">
         <label className="text-gray-600">Kata Sandi</label>
@@ -22,6 +67,9 @@ const Form = () => {
           <input
             type={`${showPassword ? "text" : "password"}`}
             className="w-full rounded-lg border-2 p-2"
+            minLength="8"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
           {showPassword ? (
             <FaRegEye
@@ -46,6 +94,9 @@ const Form = () => {
           <input
             type={`${showConfirmPassword ? "text" : "password"}`}
             className="w-full rounded-lg border-2 p-2"
+            minLength="8"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
           />
           {showConfirmPassword ? (
             <FaRegEye

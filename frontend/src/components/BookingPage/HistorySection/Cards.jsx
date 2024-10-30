@@ -42,14 +42,14 @@ const Cards = () => {
   const getStatusStyle = (status) => {
     if (!status) return 'bg-gray-500 text-white';
     
-    switch (status.toLowerCase()) {
-      case 'completed':
+    switch (status) {
+      case 'Done':
         return 'bg-green-600 text-white';
-      case 'pending':
+      case 'Pending':
         return 'bg-yellow-500 text-white';
-      case 'process':
+      case 'On Process':
         return 'bg-blue-500 text-white';
-      case 'cancelled':
+      case 'Canceled':
         return 'bg-red-600 text-white';
       default:
         return 'bg-gray-500 text-white';

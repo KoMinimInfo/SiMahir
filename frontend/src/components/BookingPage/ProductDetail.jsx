@@ -13,8 +13,7 @@ const ProductDetail = () => {
   }
 
   return (
-    
-    <div className="max-w-2xl mx-auto p-4">
+    <div className="max-w-2xl mx-auto p-4 pt-40 pb-40">
       <img
         src={product.image}
         alt={product.name}
@@ -35,6 +34,7 @@ const ProductDetail = () => {
           />
         ))}
       </div>
+      <p className="text-gray-500 text-sm font-poppins font-regular">{product.desc}</p>
     </div>
   );
 };

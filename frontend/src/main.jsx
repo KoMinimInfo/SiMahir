@@ -15,7 +15,7 @@ import ErrorPage from "./pages/ErrorPage.jsx";
 import ErrorBoundary from "./components/ErrorBoundary"; 
 import ProductPage from "./pages/ProductPage.jsx";
 import BookingFormPage from "./pages/BookingFormPage.jsx";
-
+import HistoryPage from "./pages/HistoryPage.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -69,6 +69,10 @@ const router = createBrowserRouter([
   {
     path: "/bookingform", 
     element: <BookingFormPage />,
+  },
+  {
+    path: "/history",
+    element: <HistoryPage />,
   },
 ]);
 

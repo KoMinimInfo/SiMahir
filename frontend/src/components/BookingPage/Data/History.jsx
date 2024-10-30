@@ -24,8 +24,5 @@ export const History = [
         duration: "1-2 hari",
         status: "Cancelled",
     },
-    {
-    },
-    
   ];
   

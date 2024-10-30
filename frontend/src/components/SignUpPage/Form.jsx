@@ -1,6 +1,8 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 
@@ -62,7 +64,7 @@ const Form = () => {
         <label className="text-gray-600">Kata Sandi</label>
         <div className="relative">
           <input
-            type={`${showPassword ? "text" : "password"}`}
+            type={showPassword ? "text" : "password"}
             className="w-full rounded-lg border-2 p-2"
             minLength="8"
             value={password}
@@ -89,7 +91,7 @@ const Form = () => {
         <label className="text-gray-600">Konfirmasi Kata Sandi</label>
         <div className="relative">
           <input
-            type={`${showConfirmPassword ? "text" : "password"}`}
+            type={showConfirmPassword ? "text" : "password"}
             className="w-full rounded-lg border-2 p-2"
             minLength="8"
             value={confirmPassword}

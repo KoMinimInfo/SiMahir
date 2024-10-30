@@ -1,15 +1,32 @@
-import React from "react";
+import {useEffect, useState} from "react";
 import { useNavigate } from "react-router-dom";
 import CardsOnlyBooking from "../BookingPage/CardsOnlyBooking";
-import { Product } from "./Data/Product";
 import { Link } from "react-router-dom";
+import axios from "axios";
+
 
 const BookingCards = () => {
   const navigate = useNavigate();
-
+  const [products, setProducts] = useState([]);
+  const baseStorageUrl = "https://9000-idx-simahir-1729422412747.cluster-a3grjzek65cxex762e4mwrzl46.cloudworkstations.dev";
   const handleBooking = (productId) => {
     navigate(`/product/${productId}`);
   };
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const response = await axios.get(baseStorageUrl + "/api/services");
+        const productsWithImages = response.data.data.map(product => ({
+          ...product,
+          image: baseStorageUrl + "/storage/" + product.image
+        }));
+        setProducts(productsWithImages);
+      } catch (err) {
+        console.error("Error fetching services:", err);
+      }
+    })();
+  }, []);
 
   return (
     <div className="flex items-center justify-center pt-40">
@@ -62,10 +79,15 @@ const BookingCards = () => {
           </div>
         </form>
         <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 pb-5 ">
-          {Product.map((product) => (
+          {products.map((product) => (
             <CardsOnlyBooking
               key={product.id}
-              product={product}
+              id={product.id}
+              name={product.name}
+              price={product.price}
+              duration={product.duration}
+              rating={product.rating}
+              image={product.image}
               onBooking={handleBooking}
             />
           ))}

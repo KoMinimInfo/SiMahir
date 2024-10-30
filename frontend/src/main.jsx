@@ -74,7 +74,7 @@ const router = createBrowserRouter([
     element: <ErrorPage />,
   },
   {
-    path: "/bookingform",
+    path: "/bookingform/:id", 
     element: <BookingFormPage />,
   },
   {
